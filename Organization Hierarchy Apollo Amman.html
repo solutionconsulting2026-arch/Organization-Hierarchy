@@ -1,277 +1,333 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apollo Tyres Amman - Organizational Hierarchy</title>
+
 <style>
-  :root{
-    --page:#E8EDF5;          /* page background */
-    --navy:#132A4D;          /* header + client */
-    --navy-2:#1D3E73;
-    --surface:#FFFFFF;
-    --ink:#132033;
-    --muted:#5B677A;
-    --line:#B9C4D4;
+* {
+    box-sizing: border-box;
+}
 
-    --cov:#1D3E73;           /* coverage line */
-    --cov-soft:#E4ECF8;
-    --cov-band:#F2F6FC;
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #142b42;
+    background: #f8fafc;
+}
 
-    --spec:#0E6B5C;          /* product specialists */
-    --spec-soft:#DDF1EC;
-    --spec-band:#EEF8F5;
+.hierarchy-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    background: #f8fafc;
+}
 
-    --display:"Sora",system-ui,sans-serif;
-    --body:"IBM Plex Sans",system-ui,sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,monospace;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:var(--body);
-    font-size:14px;
-    color:var(--ink);
-    background:
-      radial-gradient(1200px 500px at 50% -10%, #D5DFEE 0%, transparent 70%),
-      var(--page);
-    min-height:100vh;
-  }
+.hierarchy {
+    position: relative;
+    width: 1000px;
+    height: 790px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #f8fafc;
+    background-image:
+        linear-gradient(#e5ebf2 1px, transparent 1px),
+        linear-gradient(90deg, #e5ebf2 1px, transparent 1px);
+    background-size: 28px 28px;
+}
 
-  /* Header band */
-  .header{
-    background:var(--navy);
-    color:#fff;
-    padding:28px 16px 84px;
-  }
-  .header-inner{
-    max-width:1180px;margin:0 auto;
-    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;
-  }
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9FB3D4}
-  h1{font-family:var(--display);font-weight:600;font-size:28px;margin:6px 0 0;line-height:1.2}
-  .stats{display:flex;gap:10px;flex-wrap:wrap}
-  .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:8px 16px;min-width:110px}
-  .stat b{display:block;font-family:var(--display);font-size:20px;font-weight:600}
-  .stat span{font-size:12px;color:#C3D0E6}
+/* Connector lines */
+.connectors {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
 
-  /* Chart card overlapping the header */
-  .main{max-width:1180px;margin:-60px auto 0;padding:0 16px 48px}
-  .panel{
-    background:var(--surface);
-    border:1px solid #D3DBE7;
-    border-radius:14px;
-    box-shadow:0 12px 32px rgba(19,42,77,.10);
-    overflow:hidden;
-  }
-  .bar{
-    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;
-    padding:14px 24px;border-bottom:1px solid #E1E7F0;
-  }
-  .bar .t{font-weight:600;font-size:15px}
-  .legend{display:flex;flex-wrap:wrap;gap:20px;font-size:12px;color:var(--muted)}
-  .legend span{display:inline-flex;align-items:center;gap:7px}
-  .sw{width:10px;height:10px;border-radius:3px;display:inline-block}
-  .dash{width:20px;border-top:1.5px dashed var(--muted)}
+/* Hierarchy cards */
+.node {
+    position: absolute;
+    width: 234px;
+    height: 132px;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #3973ff;
+    border-radius: 12px;
+    z-index: 2;
+}
 
-  .chart{overflow-x:auto}
-  .chart-inner{min-width:1040px}
+.node.muted {
+    opacity: 0.40;
+    border-color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.85);
+}
 
-  /* Tier rows – background bands aligned with each level */
-  .tier{display:grid;grid-template-columns:150px 1fr}
-  .tier.client-tier{background:#F7F9FC}
-  .tier.cov-tier{background:var(--cov-band)}
-  .tier.cov-tier.alt{background:#F7FAFE}
-  .tier.spec-tier{background:var(--spec-band)}
-  .tlabel{
-    padding:0 20px 24px;
-    display:flex;flex-direction:column;justify-content:flex-end;
-    border-right:1px solid #DCE3ED;
-  }
-  .tlabel b{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted)}
-  .tlabel span{font-size:12px;font-weight:600}
-  .cov-tier .tlabel span{color:var(--cov)}
-  .spec-tier .tlabel span{color:var(--spec)}
+.account {
+    position: absolute;
+    top: 0;
+    left: 355px;
+    width: 294px;
+    height: 72px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #142338;
+    color: #ffffff;
+    border-radius: 0 0 13px 13px;
+    z-index: 3;
+}
 
-  .content{position:relative;display:flex;justify-content:center;padding:30px 24px 24px}
-  .client-tier .content{padding-top:28px}
-  .tier:not(.client-tier) .content::before{
-    content:"";position:absolute;top:0;left:50%;width:1.5px;height:30px;background:var(--line);transform:translateX(-50%);
-  }
-  /* continue the stem down through the row padding */
-  .tier:not(.spec-tier) .content::after{
-    content:"";position:absolute;bottom:0;left:50%;width:1.5px;height:24px;background:var(--line);transform:translateX(-50%);
-  }
+.account-name {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.35;
+}
 
-  /* Cards */
-  .card{
-    width:210px;background:var(--surface);
-    border:1px solid #D3DBE7;border-radius:10px;
-    padding:14px 14px 12px;
-    display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;
-    box-shadow:0 1px 3px rgba(19,42,77,.08);
-    position:relative;z-index:1;
-  }
-  .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:13px}
-  .cov .av{background:var(--cov-soft);color:var(--cov)}
-  .spec .av{background:var(--spec-soft);color:var(--spec)}
-  .name{font-weight:600;font-size:14px;line-height:1.3}
-  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:999px}
-  .cov .chip{background:var(--cov-soft);color:var(--cov)}
-  .spec .chip{background:var(--spec-soft);color:var(--spec)}
-  .card.primary{border:1.5px solid var(--cov);box-shadow:0 0 0 4px var(--cov-soft)}
+.account-subtitle {
+    margin-top: 7px;
+    font-size: 12px;
+    color: #cbd5e1;
+}
 
-  .card.client{
-    width:270px;background:var(--navy);border-color:var(--navy);color:#fff;padding:16px;
-  }
-  .client .name{font-family:var(--display);font-size:17px}
-  .client .sub{font-size:12px;color:#C3D0E6}
+.avatar {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    color: #164075;
+    background: #e6edf8;
+    font-size: 14px;
+    font-weight: 700;
+}
 
-  /* L3 row */
-  .row3{display:flex;align-items:center;justify-content:center}
-  .link{width:40px;border-top:1.5px dashed var(--line)}
+.node-name {
+    margin: 0;
+    color: #142338;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
 
-  /* L4 bus connector */
-  .spec-tier .content::before{height:16px}
-  .bus{display:grid;grid-template-columns:repeat(4,1fr);width:100%;max-width:920px;position:relative;margin-top:-14px}
-  .bus::before{content:"";position:absolute;top:0;left:12.5%;right:12.5%;height:1.5px;background:var(--line)}
-  .bus>div{position:relative;display:flex;justify-content:center;padding:28px 8px 0}
-  .bus>div::before{content:"";position:absolute;top:0;left:50%;width:1.5px;height:28px;background:var(--line);transform:translateX(-50%)}
-  .bus .card{width:100%}
+.node-role {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    color: #174d9c;
+    background: #e8eef9;
+    font-family: Consolas, monospace;
+    font-size: 10px;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+}
 
-  .note{font-size:12px;color:var(--muted);margin:16px 4px 0}
+.node-role.teal {
+    color: #007f7e;
+    background: #e0f3ef;
+}
+
+/* Main vertical hierarchy */
+.unit-head {
+    top: 106px;
+    left: 383px;
+}
+
+.senior-rm {
+    top: 272px;
+    left: 383px;
+}
+
+.primary-rm {
+    top: 438px;
+    left: 383px;
+}
+
+/* Parallel coverage roles */
+.backup-rm {
+    top: 438px;
+    left: 110px;
+}
+
+.assistant-rm {
+    top: 438px;
+    left: 659px;
+}
+
+/* Specialist RMs */
+.trade-rm {
+    top: 638px;
+    left: 0;
+    width: 235px;
+    height: 132px;
+}
+
+.cash-rm {
+    top: 638px;
+    left: 252px;
+    width: 241px;
+    height: 132px;
+}
+
+.treasury-rm {
+    top: 638px;
+    left: 510px;
+    width: 242px;
+    height: 132px;
+}
+
+.network-rm {
+    top: 638px;
+    left: 769px;
+    width: 231px;
+    height: 132px;
+}
+
+/* Preserve the visually highlighted cards */
+.treasury-rm {
+    border-color: #3973ff;
+    opacity: 1;
+}
+
+@media (max-width: 1000px) {
+    .hierarchy {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media print {
+    body, .hierarchy-wrapper {
+        background: #f8fafc;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .hierarchy {
+        margin: 0;
+    }
+}
 </style>
 </head>
+
 <body>
+<div class="hierarchy-wrapper">
+<div class="hierarchy">
 
-<header class="header">
-  <div class="header-inner">
-    <div>
-      <div class="eyebrow">Corporate Banking · Client Coverage · Amman, Jordan</div>
-      <h1>Apollo Tyres – Amman Relationship Team</h1>
+    <!-- Connector lines -->
+    <svg class="connectors" viewBox="0 0 1000 790"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Main reporting line -->
+        <g fill="none" stroke="#ccd6e4" stroke-width="2">
+            <path d="M502 72 V106"/>
+            <path d="M502 238 V272"/>
+            <path d="M502 404 V438"/>
+        </g>
+
+        <!-- Primary RM to parallel coverage roles -->
+        <g fill="none" stroke="#cbd5e1" stroke-width="1.5"
+           stroke-dasharray="3 3">
+            <path d="M383 504 H344"/>
+            <path d="M617 504 H659"/>
+        </g>
+
+        <!-- Primary RM to specialist RMs -->
+        <g fill="none" stroke="#cbd5e1" stroke-width="2">
+            <path d="M502 570 V605"/>
+            <path d="M117 605 H885"/>
+            <path d="M117 605 V638"/>
+            <path d="M372 605 V638"/>
+            <path d="M631 605 V638"/>
+            <path d="M885 605 V638"/>
+        </g>
+    </svg>
+
+    <!-- Corporate account -->
+    <div class="account">
+        <div class="account-name">Apollo Tyres – Amman</div>
+        <div class="account-subtitle">Corporate client</div>
     </div>
-    <div class="stats">
-      <div class="stat"><b>9</b><span>Team members</span></div>
-      <div class="stat"><b>5</b><span>Coverage roles</span></div>
-      <div class="stat"><b>4</b><span>Product specialists</span></div>
-    </div>
-  </div>
-</header>
 
-<main class="main">
-  <section class="panel">
-    <div class="bar">
-      <span class="t">Organisational Hierarchy</span>
-      <div class="legend">
-        <span><i class="sw" style="background:var(--cov)"></i>Coverage line</span>
-        <span><i class="sw" style="background:var(--spec)"></i>Product specialists</span>
-        <span><i class="dash"></i>Support / cover</span>
-      </div>
+    <!-- Unit Head -->
+    <div class="node unit-head">
+        <div class="avatar">N</div>
+        <p class="node-name">Naseer</p>
+        <span class="node-role">UNIT HEAD</span>
     </div>
 
-    <div class="chart">
-      <div class="chart-inner">
-
-        <!-- Client -->
-        <div class="tier client-tier">
-          <div class="tlabel"><b>CLIENT</b><span>Account</span></div>
-          <div class="content">
-            <div class="card client">
-              <div class="name">Apollo Tyres – Amman</div>
-              <div class="sub">Corporate client</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- L1 -->
-        <div class="tier cov-tier">
-          <div class="tlabel"><b>L1</b><span>Unit Leadership</span></div>
-          <div class="content">
-            <div class="card cov">
-              <span class="av">N</span>
-              <span class="name">Naseer</span>
-              <span class="chip">Unit Head</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- L2 -->
-        <div class="tier cov-tier alt">
-          <div class="tlabel"><b>L2</b><span>Senior Coverage</span></div>
-          <div class="content">
-            <div class="card cov">
-              <span class="av">A</span>
-              <span class="name">Adam</span>
-              <span class="chip">Senior RM (SRM)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- L3 -->
-        <div class="tier cov-tier">
-          <div class="tlabel"><b>L3</b><span>Relationship Coverage</span></div>
-          <div class="content">
-            <div class="row3">
-              <div class="card cov">
-                <span class="av">Z</span>
-                <span class="name">Zahir</span>
-                <span class="chip">Backup RM</span>
-              </div>
-              <div class="link"></div>
-              <div class="card cov primary">
-                <span class="av">A</span>
-                <span class="name">Ahmad</span>
-                <span class="chip">Primary RM</span>
-              </div>
-              <div class="link"></div>
-              <div class="card cov">
-                <span class="av">AQ</span>
-                <span class="name">Mr. Aziz Al Qahtani</span>
-                <span class="chip">Assistant RM (ARM)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- L4 -->
-        <div class="tier spec-tier">
-          <div class="tlabel"><b>L4</b><span>Product Specialists</span></div>
-          <div class="content">
-            <div class="bus">
-              <div>
-                <div class="card spec">
-                  <span class="av">SH</span>
-                  <span class="name">Mr. Saeed Al Hammadi</span>
-                  <span class="chip">Trade RM</span>
-                </div>
-              </div>
-              <div>
-                <div class="card spec">
-                  <span class="av">FI</span>
-                  <span class="name">Ms. Farah Ibrahim</span>
-                  <span class="chip">Cash RM</span>
-                </div>
-              </div>
-              <div>
-                <div class="card spec">
-                  <span class="av">AW</span>
-                  <span class="name">Mr. Abdul Wan</span>
-                  <span class="chip">Treasury RM</span>
-                </div>
-              </div>
-              <div>
-                <div class="card spec">
-                  <span class="av">A</span>
-                  <span class="name">Abboud</span>
-                  <span class="chip">Network RM</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+    <!-- Senior RM -->
+    <div class="node senior-rm">
+        <div class="avatar">A</div>
+        <p class="node-name">Adam</p>
+        <span class="node-role">SENIOR RM (SRM)</span>
     </div>
-  </section>
-</main>
 
+    <!-- Backup RM -->
+    <div class="node muted backup-rm">
+        <div class="avatar">Z</div>
+        <p class="node-name">Zahir</p>
+        <span class="node-role">BACKUP RM</span>
+    </div>
+
+    <!-- Primary RM -->
+    <div class="node primary-rm">
+        <div class="avatar">A</div>
+        <p class="node-name">Ahmad</p>
+        <span class="node-role">PRIMARY RM</span>
+    </div>
+
+    <!-- Assistant RM -->
+    <div class="node muted assistant-rm">
+        <div class="avatar">AQ</div>
+        <p class="node-name">Mr. Aziz Al Qahtani</p>
+        <span class="node-role">ASSISTANT RM (ARM)</span>
+    </div>
+
+    <!-- Trade RM -->
+    <div class="node muted trade-rm">
+        <div class="avatar">SH</div>
+        <p class="node-name">Mr. Saeed Al Hammadi</p>
+        <span class="node-role teal">TRADE RM</span>
+    </div>
+
+    <!-- Cash RM -->
+    <div class="node muted cash-rm">
+        <div class="avatar">FI</div>
+        <p class="node-name">Ms. Farah Ibrahim</p>
+        <span class="node-role teal">CASH RM</span>
+    </div>
+
+    <!-- Treasury RM -->
+    <div class="node treasury-rm">
+        <div class="avatar" style="background:#dff2ed;color:#007f7e;">AW</div>
+        <p class="node-name">Mr. Abdul Wan</p>
+        <span class="node-role teal">TREASURY RM</span>
+    </div>
+
+    <!-- Network RM -->
+    <div class="node muted network-rm">
+        <div class="avatar">A</div>
+        <p class="node-name">Abboud</p>
+        <span class="node-role teal">NETWORK RM</span>
+    </div>
+
+</div>
+</div>
 </body>
 </html>
